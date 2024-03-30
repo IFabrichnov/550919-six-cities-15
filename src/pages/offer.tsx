@@ -16,14 +16,13 @@ type OfferProps = {
 };
 
 const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
+  const { id } = useParams();
   const cityMapActive = useAppSelector((state) => state.city);
-  const params = useParams();
-  const cardId = params.id;
-  const selectedCard = offers.filter((offer) => offer.id === cardId)[0];
+  const selectedCard = offers.filter((offer) => offer.id === id)[0];
   const { title, type, images, isPremium, rating, bedrooms, maxAdults, price, isFavorite, host, goods, description } = selectedCard;
   const { hostName, isPro, avatarUrl } = host;
 
-  const foundOffer = offers.find((offer): boolean => offer.id.toString() === cardId);
+  const foundOffer = useAppSelector((state)=>state.offers).find((offer): boolean => offer.id.toString() === id);
   if (!foundOffer) {
     return (<NotFoundPage />);
   }
@@ -34,7 +33,7 @@ const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
 
   return (
     <div className="page">
-      <Header user="Oliver.conner@gmail.com" favoriteCount={3}/>
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">

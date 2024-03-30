@@ -3,17 +3,18 @@ import { Link } from 'react-router-dom';
 import { Offers } from '../types/offers';
 import OfferCard from '../components/offer-card';
 import Header from '../components/header';
+import { useAppSelector } from '../hooks';
 
 interface FavoritesProps {
   offers: Offers;
 }
 
-const Favorites: React.FC<FavoritesProps> = ({ offers }) => {
-  const favoritesCards = offers.filter((offer) => offer.isFavorite);
+const Favorites: React.FC<FavoritesProps> = () => {
+  const favoritesCards = useAppSelector((state)=>state.offers).filter((offer) => offer.isFavorite === true);
 
   return (
     <div className="page">
-      <Header user="Oliver.conner@gmail.com" favoriteCount={3} />
+      <Header />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
