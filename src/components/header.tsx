@@ -2,12 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import NavList from './nav-list';
 
-interface HeaderProps {
-  user: string;
-  favoriteCount: number;
-}
-
-const Header: React.FC<HeaderProps> = () => (
+const Header: React.FC = () => (
   <header className="header">
     <div className="container">
       <div className="header__wrapper">

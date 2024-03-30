@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './components/app';
-import { offers } from './mocks/offers';
-import { comments } from './mocks/comments';
 import { citiesList } from './const';
 import { store } from './store';
 import {fetchOffersAction, checkAuthAction} from './store/api-action';
@@ -22,8 +20,6 @@ root.render(
     <Provider store={store}>
       <ToastContainer />
       <App
-        offers={offers}
-        comments={comments}
         citiesList={citiesList}
       />
     </Provider>

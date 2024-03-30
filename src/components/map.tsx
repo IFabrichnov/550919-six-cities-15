@@ -4,11 +4,11 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../hooks/use-map';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../const';
 import { Offer, Offers } from '../types/offers';
-import { City } from '../types/city';
+import { CityMap } from '../types/city-map';
 
 type MapProps = {
   mapType: 'main' | 'offer';
-  city: City;
+  city: CityMap;
   offers: Offers;
   activeOffer: Offer['id'] | null;
 }
@@ -28,6 +28,7 @@ const currentCustomIcon = leaflet.icon({
 function Map({ mapType, city, offers, activeOffer }: MapProps) {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
+
   useEffect(() => {
     if (map) {
       offers.forEach((offer) => {
@@ -42,6 +43,12 @@ function Map({ mapType, city, offers, activeOffer }: MapProps) {
       });
     }
   }, [map, offers, activeOffer]);
+
+  useEffect(() => {
+    if (map) {
+      map.setView([city.lat, city.lng], city.zoom);
+    }
+  }, [map, city]);
 
   return (
     <section
