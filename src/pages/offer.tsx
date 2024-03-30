@@ -144,7 +144,7 @@ const Offer: React.FC = () => {
                 {reviewsActive && (<ReviewsList reviewList={reviewsActive} offerId={offerId} />)}
               </div>
             </div>
-            <Map mapType={'main'} offers={nearOfferPlusSelectedOffer} cardHoverId={selectedOffer.id} city={cityMapActive} />
+            <Map mapType={'main'} offers={nearOfferPlusSelectedOffer} activeOffer={selectedOffer.id} city={cityMapActive} />
           </section>
         )}
         <div className="container">

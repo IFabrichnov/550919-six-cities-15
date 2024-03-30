@@ -1,15 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Offers } from '../types/offers';
 import OfferCard from '../components/offer-card';
 import Header from '../components/header';
 import { useAppSelector } from '../hooks';
 
-interface FavoritesProps {
-  offers: Offers;
-}
-
-const Favorites: React.FC<FavoritesProps> = () => {
+const Favorites: React.FC = () => {
   const favoritesCards = useAppSelector((state)=>state.offers).filter((offer) => offer.isFavorite === true);
 
   return (
