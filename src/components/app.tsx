@@ -8,19 +8,15 @@ import Offer from '../pages/offer';
 import NotFoundPage from '../pages/not-found-page';
 import PrivateRoute from './private-route';
 import { AppRoutes, AuthorizationStatus } from '../const';
-import { Offers } from '../types/offers';
-import { Comments } from '../types/comments';
 import Spinner from './spinner/spinner';
 import HistoryRouter from '../components/history-route';
 import browserHistory from '../browser-history';
 
 type AppScreenProps = {
-  offers: Offers;
-  comments: Comments;
   citiesList: string[];
 };
 
-const App: React.FC<AppScreenProps> = ({ offers, comments, citiesList }) => {
+const App: React.FC<AppScreenProps> = ({ citiesList }) => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.offersIsLoading);
 
@@ -31,7 +27,7 @@ const App: React.FC<AppScreenProps> = ({ offers, comments, citiesList }) => {
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route path={AppRoutes.Main} element={<MainPage offers={offers} citiesList={citiesList} />} />
+        <Route path={AppRoutes.Main} element={<MainPage citiesList={citiesList} />} />
         <Route path={AppRoutes.Login} element={<LoginPage />} />
         <Route
           path={AppRoutes.Favorites}
@@ -41,7 +37,7 @@ const App: React.FC<AppScreenProps> = ({ offers, comments, citiesList }) => {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoutes.Offer} element={<Offer offers={offers} comments={comments} />} />
+        <Route path={AppRoutes.Offer} element={<Offer />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </HistoryRouter>

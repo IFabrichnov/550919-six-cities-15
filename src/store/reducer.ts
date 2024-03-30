@@ -6,41 +6,61 @@ import {
   getSortType,
   setSortOffers,
   loadOffers,
+  loadOffer,
+  setOffersIsLoading,
+  setOfferIsLoading,
+  setOfferIsNotFound,
+  loadNearOffers,
+  setNearOffersIsLoading,
+  setNearOffersIsNotFound,
   requireAuthorization,
-  setError,
   setUser,
+  addReviews,
 } from './action';
 import {DEFAULT_CITY, defaultLocation, SortType} from '../const';
 import {sortOffers} from '../utils';
 import { AuthorizationStatus } from '../const';
-import { Offers } from '../types/offers';
-import { City } from '../types/city';
+import { Offers, Offer } from '../types/offers';
+import { CityMap } from '../types/city-map';
 import { UserLogIn } from '../types/user';
+import { Reviews } from '../types/reviews';
 
 type InitalState = {
   cityActive: string;
   allOffers: Offers;
   offers: Offers;
+  offer: Offer | null;
   offersIsLoading: boolean;
-  city: City;
+  offerIsLoading: boolean;
+  offerIsNotFound: boolean;
+  nearOffers: Offers;
+  nearOffersIsLoading: boolean;
+  nearOffersIsNotFound: boolean;
+  city: CityMap;
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
   error: string | null;
   user: UserLogIn | null;
-  isFavorite: boolean;
+  reviews: Reviews;
 }
 
 const initialState: InitalState = {
   cityActive: DEFAULT_CITY,
   allOffers: [],
   offers: [],
+  offer: null,
   offersIsLoading: false,
+  offerIsLoading: false,
+  offerIsNotFound: false,
+  nearOffers: [],
+  nearOffersIsLoading: false,
+  nearOffersIsNotFound: false,
   city: defaultLocation,
   sortType: SortType.Popular,
   authorizationStatus: AuthorizationStatus.Unknown,
   error: null,
   user: null,
-  isFavorite:false,
+  reviews: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -59,7 +79,7 @@ const reducer = createReducer(initialState, (builder) => {
     })
 
     .addCase(setChangeMap, (state, action) => {
-      state.city = action.payload.name;
+      state.city = action.payload;
     })
 
     .addCase(getSortType, (state, action) => {
@@ -74,16 +94,44 @@ const reducer = createReducer(initialState, (builder) => {
       state.offers = action.payload;
     })
 
+    .addCase(loadOffer, (state, action) => {
+      state.offer = action.payload;
+    })
+
+    .addCase(setOffersIsLoading, (state, action) => {
+      state.offersIsLoading = action.payload;
+    })
+
+    .addCase(setOfferIsLoading, (state, action) => {
+      state.offerIsLoading = action.payload;
+    })
+
+    .addCase(setOfferIsNotFound, (state, action) => {
+      state.offerIsNotFound = action.payload;
+    })
+
+    .addCase(loadNearOffers, (state, action) => {
+      state.nearOffers = action.payload;
+    })
+
+    .addCase(setNearOffersIsLoading, (state, action) => {
+      state.nearOffersIsLoading = action.payload;
+    })
+
+    .addCase(setNearOffersIsNotFound, (state, action) => {
+      state.nearOffersIsNotFound = action.payload;
+    })
+
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
     })
 
-    .addCase(setError, (state, action) => {
-      state.error = action.payload;
-    })
-
     .addCase(setUser, (state, action) => {
       state.user = action.payload;
+    })
+
+    .addCase(addReviews, (state, action) => {
+      state.reviews = action.payload;
     });
 });
 
