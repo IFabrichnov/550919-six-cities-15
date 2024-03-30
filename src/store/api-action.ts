@@ -46,25 +46,25 @@ export const fetchOfferAction = createAsyncThunk<void, number | string | undefin
     state: State;
     extra: AxiosInstance;
   }>(
-  'data/fetchOffer',
-  async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOfferIsLoading(true));
-    dispatch(setOfferIsNotFound(false));
-    const id = _arg;
+    'data/fetchOffer',
+    async (_arg, { dispatch, extra: api }) => {
+      dispatch(setOfferIsLoading(true));
+      dispatch(setOfferIsNotFound(false));
+      const id = _arg;
 
-    try {
-      const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
+      try {
+        const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
 
-      if (data) {
-        dispatch(loadOffer(data));
+        if (data) {
+          dispatch(loadOffer(data));
+        }
+      } catch {
+        dispatch(setOfferIsNotFound(true));
+      } finally {
+        dispatch(setOfferIsLoading(false));
       }
-    } catch {
-      dispatch(setOfferIsNotFound(true));
-    } finally {
-      dispatch(setOfferIsLoading(false));
-    }
-  },
-);
+    },
+  );
 
 export const fetchNearOffersAction = createAsyncThunk<void, number | string | undefined,
   {
@@ -72,26 +72,26 @@ export const fetchNearOffersAction = createAsyncThunk<void, number | string | un
     state: State;
     extra: AxiosInstance;
   }>(
-  'fetchNearPlacesAction', async (_arg, { dispatch, extra: api }) => {
-    const id = _arg;
+    'fetchNearPlacesAction', async (_arg, { dispatch, extra: api }) => {
+      const id = _arg;
 
-    dispatch(setNearOffersIsLoading(true));
-    dispatch(setNearOffersIsNotFound(false));
+      dispatch(setNearOffersIsLoading(true));
+      dispatch(setNearOffersIsNotFound(false));
 
-    try {
-      const { data } = await api.get<Offers>(
-        `${ApiRoute.Offers}/${id}/nearby`
-      );
+      try {
+        const { data } = await api.get<Offers>(
+          `${ApiRoute.Offers}/${id}/nearby`
+        );
 
-      if (data) {
-        dispatch(loadNearOffers(data));
+        if (data) {
+          dispatch(loadNearOffers(data));
+        }
+      } catch {
+        dispatch(setNearOffersIsNotFound(true));
+      } finally {
+        dispatch(setNearOffersIsLoading(false));
       }
-    } catch {
-      dispatch(setNearOffersIsNotFound(true));
-    } finally {
-      dispatch(setNearOffersIsLoading(false));
-    }
-  });
+    });
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -158,13 +158,13 @@ export const submitCommentAction = createAsyncThunk<void, Comments, {
   extra: AxiosInstance;
 }
   >(
-  'submitComments',
-  async ({ id, comment, rating }, { dispatch, extra: api }) => {
-    await api.post<Comments>(`${ApiRoute.Comments}/${id}`, {
-      comment: comment,
-      rating: rating,
-    });
+    'submitComments',
+    async ({ id, comment, rating }, { dispatch, extra: api }) => {
+      await api.post<Comments>(`${ApiRoute.Comments}/${id}`, {
+        comment: comment,
+        rating: rating,
+      });
 
-    dispatch(fetchReviewsAction(id));
-  }
-);
+      dispatch(fetchReviewsAction(id));
+    }
+  );
