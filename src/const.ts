@@ -47,3 +47,14 @@ export enum ApiRoute {
 }
 
 export const TIMEOUT_SHOW_ERROR = 2000;
+
+export const PRIVATE_ROUTES: readonly string[] = ['/favorites'];
+
+export enum NameSpace {
+  Offers = 'OFFERS',
+  Favorites = 'FAVORITES',
+  Reviews = 'REVIEWS',
+  User = 'USER',
+  Data = 'DATA',
+  Error = 'ERROR'
+}

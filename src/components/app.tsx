@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import {useAppSelector} from '../hooks/index';
 import MainPage from '../pages/main';
 import LoginPage from '../pages/login';
@@ -11,6 +11,8 @@ import { AppRoutes, AuthorizationStatus } from '../const';
 import { Offers } from '../types/offers';
 import { Comments } from '../types/comments';
 import Spinner from './spinner/spinner';
+import HistoryRouter from '../components/history-route';
+import browserHistory from '../browser-history';
 
 type AppScreenProps = {
   offers: Offers;
@@ -27,7 +29,7 @@ const App: React.FC<AppScreenProps> = ({ offers, comments, citiesList }) => {
   }
 
   return (
-    <Router>
+    <HistoryRouter history={browserHistory}>
       <Routes>
         <Route path={AppRoutes.Main} element={<MainPage offers={offers} citiesList={citiesList} />} />
         <Route path={AppRoutes.Login} element={<LoginPage />} />
@@ -35,14 +37,14 @@ const App: React.FC<AppScreenProps> = ({ offers, comments, citiesList }) => {
           path={AppRoutes.Favorites}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <Favorites offers={offers} />
+              <Favorites />
             </PrivateRoute>
           }
         />
         <Route path={AppRoutes.Offer} element={<Offer offers={offers} comments={comments} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-    </Router>
+    </HistoryRouter>
   );
 };
 

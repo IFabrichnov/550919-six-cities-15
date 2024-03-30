@@ -4,11 +4,11 @@ import CommentCard from '../components/comment-card';
 import { Comments } from '../types/comments';
 import Header from '../components/header';
 import Map from '../components/map';
-import {Offers} from '../types/offers';
+import { Offers } from '../types/offers';
 import NearOfferCardList from '../components/near-offer-card-list';
 import NotFoundPage from './not-found-page';
-import {sortOffers} from '../utils';
-import {useAppSelector} from '../hooks';
+import { sortOffers } from '../utils';
+import { useAppSelector } from '../hooks';
 
 type OfferProps = {
   offers: Offers;
@@ -16,14 +16,13 @@ type OfferProps = {
 };
 
 const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
+  const { id: offerId } = useParams();
   const cityMapActive = useAppSelector((state) => state.city);
-  const params = useParams();
-  const cardId = params.id;
-  const selectedCard = offers.filter((offer) => offer.id === cardId)[0];
+  const selectedCard = offers.filter((offer) => offer.id === offerId)[0];
   const { title, type, images, isPremium, rating, bedrooms, maxAdults, price, isFavorite, host, goods, description } = selectedCard;
   const { hostName, isPro, avatarUrl } = host;
 
-  const foundOffer = offers.find((offer): boolean => offer.id.toString() === cardId);
+  const foundOffer = useAppSelector((state) => state.offers).find((offer): boolean => offer.id.toString() === offerId);
   if (!foundOffer) {
     return (<NotFoundPage />);
   }
@@ -34,7 +33,7 @@ const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
 
   return (
     <div className="page">
-      <Header user="Oliver.conner@gmail.com" favoriteCount={3}/>
+      <Header />
 
       <main className="page__main page__main--offer">
         <section className="offer">
@@ -119,11 +118,11 @@ const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
                 </div>
               </div>
               <section className="offer__reviews reviews">
-                <CommentCard comments={comments}/>
+                <CommentCard comments={comments} />
               </section>
             </div>
           </div>
-          <Map mapType={'main'} offers={nearOfferPlusSelectedCard} activeOffer={offerPage.id} city={cityMapActive}/>
+          <Map mapType={'main'} offers={nearOfferPlusSelectedCard} activeOffer={offerPage.id} city={cityMapActive} />
         </section>
         <div className="container">
           <section className="near-places places">
@@ -137,4 +136,5 @@ const Offer: React.FC<OfferProps> = ({ offers, comments }) => {
     </div>
   );
 };
+
 export default Offer;

@@ -5,6 +5,9 @@ import { Offers } from '../types/offers';
 import { loadOffers, requireAuthorization, setOffersIsLoading, getOffers, setError } from './action';
 import { ApiRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from '../const';
 import {store} from '.';
+import { saveToken, dropToken } from '../services/token';
+import { AuthData } from '../types/auth-data';
+import { UserData } from '../types/user-data';
 
 export const clearErrorAction = createAsyncThunk(
   'game/clearError',
@@ -46,5 +49,32 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
+  },
+);
+
+
+export const loginAction = createAsyncThunk<void, AuthData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/login',
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data: { token } } = await api.post<UserData>(ApiRoute.Login, { email, password });
+    saveToken(token);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+  },
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    await api.delete(ApiRoute.Logout);
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
   },
 );
