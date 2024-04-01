@@ -1,17 +1,22 @@
-import React from 'react';
-import { Offer } from '../types/offers';
-import OfferCard from './offer-card';
+import { Offers } from '../types/offers';
+import NearOfferCard from './near-offer-card';
 
 type NearOfferCardListProps = {
-  offerList: Offer[];
+  offerList: Offers;
 }
 
-const NearOfferCardList: React.FC<NearOfferCardListProps> = ({ offerList }) => (
-  <>
-    {offerList.map((offer) => (
-      <OfferCard key={offer.id} offer={offer} />
-    ))}
-  </>
-);
+function NearOfferCardList({ offerList }: NearOfferCardListProps): JSX.Element {
+
+  return (
+    < >
+      {offerList.map((offer) => {
+        const keyValue = offer.id;
+        return (
+          <NearOfferCard key={keyValue} offerCard={offer} />
+        );
+      })}
+    </>
+  );
+}
 
 export default NearOfferCardList;

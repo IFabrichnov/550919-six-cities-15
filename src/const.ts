@@ -1,4 +1,4 @@
-import { CityList } from './types/city';
+import { CityList, City } from './types/city';
 import { CityMap } from './types/city-map';
 
 export enum AppRoutes {
@@ -68,6 +68,15 @@ export const cityMap: CityMap[] = [
 
 export const DEFAULT_CITY = CITY_LIST.Paris;
 
+export const DEFAULT_LOCATION: City = {
+  name: 'Paris',
+  location: {
+    latitude: 48.85661,
+    longitude: 2.351499,
+    zoom: 13
+  }
+} as const;
+
 export const [defaultLocation] = cityMap.filter((item) => item.title === DEFAULT_CITY);
 
 export const citiesList = [
@@ -86,6 +95,8 @@ export enum SortType {
   TopRated = 'Top rated first',
 }
 
+export const DEFAULT_SORT = SortType.Popular;
+
 export enum ApiRoute {
   Offers = '/offers',
   Favorite = '/favorite',
@@ -103,6 +114,7 @@ export enum NameSpace {
   Favorites = 'FAVORITES',
   Reviews = 'REVIEWS',
   User = 'USER',
-  Data = 'DATA',
+  NearOffers = 'NEAROFFERS',
+  Offer = 'OFFER',
   Error = 'ERROR'
 }

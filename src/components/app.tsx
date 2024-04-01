@@ -9,16 +9,15 @@ import NotFoundPage from '../pages/not-found-page';
 import PrivateRoute from './private-route';
 import { AppRoutes, AuthorizationStatus } from '../const';
 import Spinner from './spinner/spinner';
+import { citiesList } from '../const';
 import HistoryRouter from '../components/history-route';
 import browserHistory from '../browser-history';
+import { getAuthorizationStatus } from '../store/user-process/user-process.selectors';
+import { getOfferIsLoading } from '../store/offer-process/offer-process.selectors';
 
-type AppScreenProps = {
-  citiesList: string[];
-};
-
-const App: React.FC<AppScreenProps> = ({ citiesList }) => {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.offersIsLoading);
+const App: React.FC = () => {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getOfferIsLoading);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return <Spinner />;

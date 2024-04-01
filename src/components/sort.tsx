@@ -5,7 +5,7 @@ import { SortType } from '../const';
 
 const Sort: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const selectedSortType = useAppSelector((state) => state.sortType);
+  const selectedSortType = useAppSelector(getSortType);
   const dispatch = useAppDispatch();
 
   function handleToggle() {

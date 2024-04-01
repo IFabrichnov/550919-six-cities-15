@@ -4,11 +4,11 @@ import 'leaflet/dist/leaflet.css';
 import useMap from '../hooks/use-map';
 import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../const';
 import { Offer, Offers } from '../types/offers';
-import { CityMap } from '../types/city-map';
+import { City } from '../types/city';
 
 type MapProps = {
   mapType: 'main' | 'offer';
-  city: CityMap;
+  city: City;
   offers: Offers;
   activeOffer: Offer['id'] | null;
 }
@@ -46,7 +46,7 @@ function Map({ mapType, city, offers, activeOffer }: MapProps) {
 
   useEffect(() => {
     if (map) {
-      map.setView([city.lat, city.lng], city.zoom);
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
     }
   }, [map, city]);
 
