@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import leaflet, { Map } from 'leaflet';
-import { CityMap } from '../types/city-map';
+import { City } from '../types/city';
 
-function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, city: CityMap): Map | null {
+function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, city: City): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
@@ -10,10 +10,10 @@ function useMap(mapRef: React.MutableRefObject<HTMLElement | null>, city: CityMa
     if (mapRef.current !== null && !isRenderedRef.current) {
       const instance = leaflet.map(mapRef.current, {
         center: {
-          lat: city.lat,
-          lng: city.lng,
+          lat: city.location.latitude,
+          lng: city.location.longitude,
         },
-        zoom: city.zoom,
+        zoom: city.location.zoom,
       });
 
       leaflet

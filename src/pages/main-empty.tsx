@@ -1,7 +1,11 @@
 import React from 'react';
 import Header from '../components/header';
 
-const MainPageEmpty: React.FC = () => (
+type MainEmptyPageProps = {
+  cityActive: string;
+}
+
+const MainPageEmpty: React.FC<MainEmptyPageProps> = ({cityActive}) => (
   <div className="page page--gray page--main">
     <Header />
 
@@ -48,7 +52,7 @@ const MainPageEmpty: React.FC = () => (
           <section className="cities__no-places">
             <div className="cities__status-wrapper tabs__content">
               <b className="cities__status">No places to stay available</b>
-              <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+              <p className="cities__status-description">We could not find any property available at the moment in {cityActive}</p>
             </div>
           </section>
           <div className="cities__right-section"></div>

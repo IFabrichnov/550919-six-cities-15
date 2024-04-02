@@ -19,7 +19,8 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('0');
 
-  const isDisabled = (comment.length < 50 || comment.length > 300 || rating === null);
+  const isDisabled = (comment.length < 50 || comment.length > 300 || rating === '0' || rating === null);
+
 
   function handleInputChange(evt: ChangeEvent<HTMLInputElement>) {
     setRating(evt.target.value);

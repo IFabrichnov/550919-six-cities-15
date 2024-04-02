@@ -9,14 +9,11 @@ import NotFoundPage from '../pages/not-found-page';
 import PrivateRoute from './private-route';
 import { AppRoutes, AuthorizationStatus } from '../const';
 import Spinner from './spinner/spinner';
+import { citiesList } from '../const';
 import HistoryRouter from '../components/history-route';
 import browserHistory from '../browser-history';
 
-type AppScreenProps = {
-  citiesList: string[];
-};
-
-const App: React.FC<AppScreenProps> = ({ citiesList }) => {
+const App: React.FC = () => {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.offersIsLoading);
 

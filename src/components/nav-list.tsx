@@ -2,10 +2,12 @@ import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/index';
 import { AuthorizationStatus, AppRoutes, PRIVATE_ROUTES } from '../const';
 import { logoutAction } from '../store/api-action';
+import { getAuthorizationStatus, getUser } from '../store/user-process/user-process.selectors';
 
 function NavList(): JSX.Element {
-  const authorizationStatusLogged = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const authorizationStatusLogged = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
+
 
   const isLogged = authorizationStatusLogged === AuthorizationStatus.Auth;
 
