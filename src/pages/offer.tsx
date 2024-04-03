@@ -13,6 +13,8 @@ import { getCity } from '../store/offers-process/offers-process.selectors';
 import { getOffer, getOfferIsLoading, getOfferIsNotFound } from '../store/offer-process/offer-process.selectors';
 import { getReviews } from '../store/reviews-process/reviews-process.selectors';
 import { getNearOffers, getNearOffersIsLoading } from '../store/near-offers-process/near-offers-process.selectors';
+import { useFavorites } from '../hooks/use-favorites';
+import { FavoritesUpdate } from '../const';
 
 const MIN_NEAR_OFFERS_COUNT = 0;
 const MAX_NEAR_OFFERS_COUNT = 3;
@@ -39,6 +41,13 @@ const Offer: React.FC = () => {
     store.dispatch(fetchReviewsAction(offerId));
     store.dispatch(fetchNearOffersAction(offerId));
   }, [offerId]);
+
+  const currentStatus = selectedOffer && selectedOffer.isFavorite ? 0 : 1;
+  const onChangeFavorites = useFavorites(
+    String(offerId),
+    currentStatus,
+    FavoritesUpdate.Offer
+  );
 
   return (
     <div className="page">
@@ -73,8 +82,12 @@ const Offer: React.FC = () => {
                   <h1 className="offer__name">
                     {selectedOffer.title}
                   </h1>
-                  <button className="offer__bookmark-button button" type="button">
-                    <svg className={`offer__bookmark-icon ${selectedOffer.isFavorite ? 'offer__bookmark-button--active' : ''}`} width={31} height={33}>
+                  <button
+                    onClick={onChangeFavorites}
+                    className={`offer__bookmark-button button ${selectedOffer?.isFavorite ? 'offer__bookmark-button--active' : ''}`}
+                    type="button"
+                  >
+                    <svg className="offer__bookmark-icon" width={31} height={33}>
                       <use xlinkHref="#icon-bookmark" />
                     </svg>
                     <span className="visually-hidden">To bookmarks</span>

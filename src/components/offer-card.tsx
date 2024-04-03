@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Offer } from '../types/offers';
 import { Link } from 'react-router-dom';
+import { useFavorites } from '../hooks/use-favorites';
+import { FavoritesUpdate } from '../const';
 
 type OfferCardProps = {
   offer: Offer;
@@ -9,15 +11,14 @@ type OfferCardProps = {
   imageSize?: string;
   imageWidth?: number;
   imageHeight?: number;
+  favoritesUpdate: FavoritesUpdate;
 }
 
-const OfferCard: React.FC<OfferCardProps> = ({ offer, setActiveOffer, additionalClass, imageSize, imageWidth, imageHeight }) => {
-  const { isPremium, previewImage, price, id, rating, type, title, isFavorite } = offer;
-  const [isFavoriteCard, setFavoriteCard] = useState(isFavorite);
+const OfferCard: React.FC<OfferCardProps> = ({ favoritesUpdate, offer, setActiveOffer, additionalClass, imageSize, imageWidth, imageHeight }) => {
 
   const handleMouseOver = () => {
     if (setActiveOffer) {
-      setActiveOffer(id as number | null);
+      setActiveOffer(offer.id as number | null);
     }
   };
 
@@ -27,9 +28,12 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer, setActiveOffer, additional
     }
   };
 
-  const handleClick = () => {
-    setFavoriteCard(!isFavoriteCard);
-  };
+  const currentStatus = offer.isFavorite ? 0 : 1;
+  const onChangeFavorites = useFavorites(
+    String(offer.id),
+    currentStatus,
+    favoritesUpdate
+  );
 
   const cardClasses = `${additionalClass ? 'favorites__card' : 'cities__card'} place-card`;
   const imageClasses = `${imageSize ? 'favorites__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper`;
@@ -37,12 +41,12 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer, setActiveOffer, additional
 
   return (
     <article className={cardClasses} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-      {isPremium && <div className="place-card__mark"><span>Premium</span></div>}
+      {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className={imageClasses}>
-        <Link to={`/offer/${id}`}>
+        <Link to={`/offer/${offer.id}`}>
           <img
             className="place-card__image"
-            src={previewImage}
+            src={offer.previewImage}
             width={imageWidth || 260}
             height={imageHeight || 200}
             alt="Place image"
@@ -52,30 +56,30 @@ const OfferCard: React.FC<OfferCardProps> = ({ offer, setActiveOffer, additional
       <div className={cardClassInfo}>
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">€{price}</b>
+            <b className="place-card__price-value">€{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            className={`place-card__bookmark-button button ${isFavorite ? 'place-card__bookmark-button--active' : ''}`}
-            onClick={handleClick}
+            className={`place-card__bookmark-button button ${offer.isFavorite ? 'place-card__bookmark-button--active' : ''}`}
+            onClick={onChangeFavorites}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
-            <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
+            <span className="visually-hidden">{offer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
           </button>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{ width: `${rating * 20}%` }}></span>
+            <span style={{ width: `${offer.rating * 20}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href={`offer/${id}`}>{title}</a>
+          <a href={`offer/${offer.id}`}>{offer.title}</a>
         </h2>
-        <p className="place-card__type">{type}</p>
+        <p className="place-card__type">{offer.type}</p>
       </div>
     </article>
   );

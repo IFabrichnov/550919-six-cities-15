@@ -43,3 +43,9 @@ export type UserProcess = {
   user: UserLogIn | null;
   authorizationStatus: AuthorizationStatus;
 };
+
+export type favoritesProcess = {
+  favorites: Offers;
+  favoritesIsLoading: boolean;
+  favoritesIsNotFound: boolean;
+};

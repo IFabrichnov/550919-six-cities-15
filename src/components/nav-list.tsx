@@ -3,6 +3,7 @@ import { useAppSelector, useAppDispatch } from '../hooks/index';
 import { AuthorizationStatus, AppRoutes, PRIVATE_ROUTES } from '../const';
 import { logoutAction } from '../store/api-action';
 import { getAuthorizationStatus, getUser } from '../store/user-process/user-process.selectors';
+import { getFavorites } from '../store/favorites-process/favorites-process.selectors';
 
 function NavList(): JSX.Element {
   const authorizationStatusLogged = useAppSelector(getAuthorizationStatus);
@@ -14,6 +15,8 @@ function NavList(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const favoritesLength = useAppSelector(getFavorites).length;
 
   const handleClick = () => {
     dispatch(logoutAction());
@@ -36,7 +39,7 @@ function NavList(): JSX.Element {
               <span className="header__user-name user__name">
                 {user?.email}
               </span>
-              <span className="header__favorite-count">3</span>
+              <span className="header__favorite-count">{favoritesLength}</span>
             </NavLink>
           </li>
           <li className="header__nav-link resetStyleButton">
