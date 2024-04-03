@@ -1,4 +1,3 @@
-import React from 'react';
 import { Offer } from '../types/offers';
 import OfferCard from './offer-card';
 import { FavoritesUpdate } from '../const';
