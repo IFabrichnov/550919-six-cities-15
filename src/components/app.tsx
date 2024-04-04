@@ -12,10 +12,12 @@ import Spinner from './spinner/spinner';
 import { citiesList } from '../const';
 import HistoryRouter from '../components/history-route';
 import browserHistory from '../browser-history';
+import { getAuthorizationStatus } from '../store/user-process/user-process.selectors';
+import { getOffersIsLoading } from '../store/offers-process/offers-process.selectors';
 
 const App: React.FC = () => {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.offersIsLoading);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isOffersDataLoading = useAppSelector(getOffersIsLoading);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return <Spinner />;

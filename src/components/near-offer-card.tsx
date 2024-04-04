@@ -1,6 +1,6 @@
-import React from 'react';
 import { Offer } from '../types/offers';
 import OfferCard from './offer-card';
+import { FavoritesUpdate } from '../const';
 
 
 type NearOfferCardProps = {
@@ -9,7 +9,7 @@ type NearOfferCardProps = {
 
 function NearOfferCard({ offerCard }: NearOfferCardProps): JSX.Element {
   return (
-    <OfferCard offer={offerCard} />
+    <OfferCard offer={offerCard} favoritesUpdate={FavoritesUpdate.NearOffers} />
   );
 }
 
