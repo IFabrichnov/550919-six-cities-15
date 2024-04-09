@@ -9,9 +9,7 @@ import NotFoundPage from '../pages/not-found-page';
 import PrivateRoute from './private-route';
 import { AppRoutes, AuthorizationStatus } from '../const';
 import Spinner from './spinner/spinner';
-import { citiesList } from '../const';
-import HistoryRouter from '../components/history-route';
-import browserHistory from '../browser-history';
+import { HelmetProvider } from 'react-helmet-async';
 import { getAuthorizationStatus } from '../store/user-process/user-process.selectors';
 import { getOffersIsLoading } from '../store/offers-process/offers-process.selectors';
 
@@ -24,10 +22,12 @@ const App: React.FC = () => {
   }
 
   return (
-    <HistoryRouter history={browserHistory}>
+    <HelmetProvider>
       <Routes>
-        <Route path={AppRoutes.Main} element={<MainPage citiesList={citiesList} />} />
-        <Route path={AppRoutes.Login} element={<LoginPage />} />
+        <Route
+          path={AppRoutes.Main}
+          element={<MainPage />}
+        />
         <Route
           path={AppRoutes.Favorites}
           element={
@@ -36,10 +36,20 @@ const App: React.FC = () => {
             </PrivateRoute>
           }
         />
-        <Route path={AppRoutes.Offer} element={<Offer />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route
+          path={AppRoutes.Offer}
+          element={<Offer />}
+        />
+        <Route
+          path={AppRoutes.Login}
+          element={<LoginPage />}
+        />
+        <Route
+          path="*"
+          element={<NotFoundPage />}
+        />
       </Routes>
-    </HistoryRouter>
+    </HelmetProvider>
   );
 };
 

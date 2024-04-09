@@ -7,7 +7,7 @@ type ReviewCardProps = {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ reviewCard }) => {
   const { comment, user, rating, date } = reviewCard;
-  const { userName, avatarUrl } = user;
+  const { avatarUrl } = user;
   const dueDate = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric' }).format(new Date(date.split('T')[0]));
   const handleStars = (width: number) => `${Math.round(width) * 20}%`;
 
@@ -24,7 +24,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ reviewCard }) => {
               alt="Reviews avatar"
             />
           </div>
-          <span className="reviews__user-name">{userName}</span>
+          <span className="reviews__user-name">{user?.name}</span>
         </div>
         <div className="reviews__info">
           <div className="reviews__rating rating">

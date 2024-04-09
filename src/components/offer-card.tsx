@@ -7,14 +7,13 @@ import { FavoritesUpdate } from '../const';
 type OfferCardProps = {
   offer: Offer;
   setActiveOffer?: (id: number | null) => void;
-  additionalClass?: string;
-  imageSize?: string;
   imageWidth?: number;
   imageHeight?: number;
   favoritesUpdate: FavoritesUpdate;
+  placeType: 'cities' | 'near-places';
 }
 
-const OfferCard: React.FC<OfferCardProps> = ({ favoritesUpdate, offer, setActiveOffer, additionalClass, imageSize, imageWidth, imageHeight }) => {
+const OfferCard: React.FC<OfferCardProps> = ({ favoritesUpdate, offer, setActiveOffer, imageWidth, imageHeight, placeType }) => {
 
   const handleMouseOver = () => {
     if (setActiveOffer) {
@@ -35,14 +34,10 @@ const OfferCard: React.FC<OfferCardProps> = ({ favoritesUpdate, offer, setActive
     favoritesUpdate
   );
 
-  const cardClasses = `${additionalClass ? 'favorites__card' : 'cities__card'} place-card`;
-  const imageClasses = `${imageSize ? 'favorites__image-wrapper' : 'cities__image-wrapper'} place-card__image-wrapper`;
-  const cardClassInfo = `${additionalClass ? `${additionalClass}-info` : 'place-card__info'}`;
-
   return (
-    <article className={cardClasses} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+    <article className={`${placeType}__card place-card`} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className={imageClasses}>
+      <div className={`${placeType}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${offer.id}`}>
           <img
             className="place-card__image"
@@ -53,7 +48,7 @@ const OfferCard: React.FC<OfferCardProps> = ({ favoritesUpdate, offer, setActive
           />
         </Link>
       </div>
-      <div className={cardClassInfo}>
+      <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
             <b className="place-card__price-value">€{offer.price}</b>
