@@ -4,10 +4,24 @@ import { checkAuthAction, loginAction, logoutAction } from '../api-action';
 import { NameSpace, AuthorizationStatus } from '../../const';
 import { getToken } from '../../services/token';
 
+export const saveUserToLocalStorage = (userData: UserProcess): void => {
+  localStorage.setItem('userData', JSON.stringify(userData));
+};
+
+export const getUserFromLocalStorage = (): UserProcess | null => {
+  const userDataString = localStorage.getItem('userData');
+  return userDataString ? JSON.parse(userDataString) as UserProcess : null;
+};
+
+export const removeUserFromLocalStorage = () => {
+  localStorage.removeItem('userData');
+};
+
 const token = getToken();
+const userFromLocalStorage = getUserFromLocalStorage();
 
 const initialState: UserProcess = {
-  user: null,
+  user: userFromLocalStorage || null,
   authorizationStatus: token ? AuthorizationStatus.Auth : AuthorizationStatus.Unknown,
 };
 
@@ -29,6 +43,7 @@ export const user = createSlice({
 
         if (userData) {
           state.user = userData;
+          saveUserToLocalStorage(userData);
         }
       })
       .addCase(loginAction.rejected, (state) => {
@@ -36,6 +51,7 @@ export const user = createSlice({
       })
       .addCase(logoutAction.fulfilled, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
+        removeUserFromLocalStorage();
       });
   },
 });

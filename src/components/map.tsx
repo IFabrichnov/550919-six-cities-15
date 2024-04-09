@@ -7,7 +7,7 @@ import { Offer, Offers } from '../types/offers';
 import { City } from '../types/city';
 
 type MapProps = {
-  mapType: 'main' | 'offer';
+  mapType: 'cities' | 'offer';
   city: City;
   offers: Offers;
   activeOffer: Offer['id'] | null;
@@ -52,7 +52,7 @@ function Map({ mapType, city, offers, activeOffer }: MapProps) {
 
   return (
     <section
-      style={mapType === 'main' ?
+      style={mapType === 'offer' ?
         {
           height: '100%',
           minHeight: '500px',
@@ -65,6 +65,7 @@ function Map({ mapType, city, offers, activeOffer }: MapProps) {
         }}
       className={`${mapType}__map map`}
       ref={mapRef}
+      data-testid='map'
     >
     </section>
   );

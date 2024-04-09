@@ -1,14 +1,19 @@
-import React, { useRef, FormEvent } from 'react';
-import { useAppDispatch } from '../hooks';
+import React, { useRef, FormEvent, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { loginAction } from '../store/api-action';
 import Header from '../components/header';
+import { getAuthorizationStatus } from '../store/user-process/user-process.selectors';
+import { AuthorizationStatus } from '../const';
 
 
 const LoginPage: React.FC = () => {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -20,6 +25,11 @@ const LoginPage: React.FC = () => {
       }));
     }
   };
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate('/'); // Перенаправляем на главную страницу
+    }
+  }, [authorizationStatus, navigate]);
 
   return (
     <div className="page page--gray page--login">

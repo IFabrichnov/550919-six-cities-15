@@ -11,11 +11,7 @@ import { AppRoutes } from '../const';
 import { getCityActive, getCity, getOffers, getOffersIsLoading, getOffersIsNotFound } from '../store/offers-process/offers-process.selectors';
 import OfferCardList from '../components/offer-card-list';
 
-interface MainPageProps {
-  citiesList: string[];
-}
-
-const MainPage: React.FC<MainPageProps> = ({ citiesList }) => {
+const MainPage: React.FC = () => {
   const [activeOffer, setActiveOffer] = useState<number | null>(null);
   const cityActive = useAppSelector(getCityActive);
   const offersActive = useAppSelector(getOffers);
@@ -29,7 +25,7 @@ const MainPage: React.FC<MainPageProps> = ({ citiesList }) => {
       <Header />
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <LocationsList cities={citiesList} />
+        <LocationsList cityActive={cityActive} />
         {offersIsLoading && <Spinner />}
         {offersIsNotFound && <Navigate to={AppRoutes.NotFound} />}
         {!offersIsLoading && (
@@ -45,7 +41,7 @@ const MainPage: React.FC<MainPageProps> = ({ citiesList }) => {
                   </div>
                 </section>
                 <div className="cities__right-section">
-                  <Map mapType={'offer'} offers={offersActive} activeOffer={activeOffer} city={cityMapActive} />
+                  <Map mapType={'cities'} offers={offersActive} activeOffer={activeOffer} city={cityMapActive} />
                 </div>
               </div>
             ) : (

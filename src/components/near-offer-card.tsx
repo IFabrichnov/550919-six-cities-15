@@ -9,7 +9,7 @@ type NearOfferCardProps = {
 
 function NearOfferCard({ offerCard }: NearOfferCardProps): JSX.Element {
   return (
-    <OfferCard offer={offerCard} favoritesUpdate={FavoritesUpdate.NearOffers} />
+    <OfferCard placeType={'near-places'} offer={offerCard} favoritesUpdate={FavoritesUpdate.NearOffers} />
   );
 }
 

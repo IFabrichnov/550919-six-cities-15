@@ -10,7 +10,6 @@ export type State = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
-
 export type OffersProcess = {
   cityActive: string;
   city: City;
@@ -44,7 +43,7 @@ export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
 };
 
-export type favoritesProcess = {
+export type FavoritesProcess = {
   favorites: Offers;
   favoritesIsLoading: boolean;
   favoritesIsNotFound: boolean;

@@ -1,22 +1,28 @@
+import React, { useEffect } from 'react';
 import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../hooks/index';
 import { AuthorizationStatus, AppRoutes, PRIVATE_ROUTES } from '../const';
-import { logoutAction } from '../store/api-action';
+import { logoutAction, fetchFavoritesAction } from '../store/api-action';
 import { getAuthorizationStatus, getUser } from '../store/user-process/user-process.selectors';
 import { getFavorites } from '../store/favorites-process/favorites-process.selectors';
 
 function NavList(): JSX.Element {
   const authorizationStatusLogged = useAppSelector(getAuthorizationStatus);
   const user = useAppSelector(getUser);
-
-
-  const isLogged = authorizationStatusLogged === AuthorizationStatus.Auth;
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const favoritesLength = useAppSelector(getFavorites).length;
+  const isLogged = authorizationStatusLogged === AuthorizationStatus.Auth;
+
+  const favorites = useAppSelector(getFavorites);
+  const favoritesLength = favorites.length;
+
+  useEffect(() => {
+    if (isLogged && favoritesLength === 0) {
+      dispatch(fetchFavoritesAction());
+    }
+  }, [dispatch, isLogged, favoritesLength]);
 
   const handleClick = () => {
     dispatch(logoutAction());

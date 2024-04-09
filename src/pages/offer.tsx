@@ -23,6 +23,7 @@ const Offer: React.FC = () => {
   const params = useParams();
   const offerId = params.id;
   const cityMapActive = useAppSelector(getCity);
+
   const selectedOffer = useAppSelector(getOffer);
   const offerIsLoading = useAppSelector(getOfferIsLoading);
   const offerIsNotFound = useAppSelector(getOfferIsNotFound);
@@ -161,7 +162,7 @@ const Offer: React.FC = () => {
                 {reviewsActive && (<ReviewsList reviewList={reviewsActive} offerId={offerId} />)}
               </div>
             </div>
-            <Map mapType={'main'} offers={nearOfferPlusSelectedOffer} activeOffer={selectedOffer.id} city={cityMapActive} />
+            <Map mapType={'offer'} offers={nearOfferPlusSelectedOffer} activeOffer={selectedOffer.id} city={cityMapActive} />
           </section>
         )}
         <div className="container">
@@ -177,6 +178,7 @@ const Offer: React.FC = () => {
           </section>
         </div>
       </main>
+
     </div>
   );
 };
