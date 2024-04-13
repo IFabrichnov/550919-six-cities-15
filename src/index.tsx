@@ -1,30 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import App from './components/app';
-import { store } from './store';
-import {fetchOffersAction, checkAuthAction} from './store/api-action';
 import { ToastContainer } from 'react-toastify';
+import App from './app';
+import { setupStore } from './store';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchFavoritesAction } from './store/api-action';
-import HistoryRouter from './components/history-router';
-import browserHistory from './browser-history';
-
-store.dispatch(fetchOffersAction());
-store.dispatch(checkAuthAction());
-store.dispatch(fetchFavoritesAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const store = setupStore();
+
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={browserHistory}>
-        <ToastContainer />
-        <App />
-      </HistoryRouter>
-    </Provider>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <ToastContainer />
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </HelmetProvider>
   </React.StrictMode>
 );
