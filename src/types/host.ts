@@ -1,5 +1,5 @@
 export type Host = {
-  hostName: string;
-  isPro: boolean;
+  name: string;
   avatarUrl: string;
-};
+  isPro: boolean;
+}
